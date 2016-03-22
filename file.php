@@ -1,9 +1,3 @@
-ok
-second opinion
-ssssss
+<?php
 
-I'm Hiro!
-
-
-Hey!hehehehehehe
-
+echo "Hello,World!";
