@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Transform Transitions</title>
+<style>
+
+body {
+  margin: 0;
+}
+
+rect {
+  stroke: #fff;
+  stroke-width: .2px;
+}
+
+</style>
+<body>
+<script src="d3/d3.js"></script>
+<script>
+
+var w = 1880,
+    h = 1000,
+    z = 20,
+    x = w / z,
+    y = h / z;
+
+var svg = d3.select("body").append("svg")
+    .attr("width", w*2)
+    .attr("height", h*2);
+
+svg.selectAll("rect")
+    .data(d3.range(x * y))
+  .enter().append("rect")
+    .attr("transform", translate)
+    .attr("width", z)
+    .attr("height", z)
+    .style("fill", function(d) { return d3.hsl(d % x / x * 360, 1, Math.floor(d / x) / y); })
+    .on("mouseover", mouseover);
+
+function translate(d) {
+  return "translate(" + (d % x) * z + "," + Math.floor(d / x) * z + ")";
+}
+
+function mouseover(d) {
+  this.parentNode.appendChild(this);
+
+  d3.select(this)
+      .style("pointer-events", "none")
+    .transition()
+      .duration(3350)
+      .style("fill-opacity", 0.1)
+      .attr("transform", "translate(1880,960)scale(96,48)rotate(180)")
+   .transition(350)
+      .attr("transform", "translate(0,960)scale(48,24)rotate(180)")
+      .style("fill-opacity", 0.03)
+   .transition(450)
+      .attr("transform", "translate(1880,0)scale(96,24)rotate(180)")
+      .style("fill-opacity", 0.02)
+   .transition(550)
+      .attr("transform", "translate(960,480)scale(96,24)rotate(180)")
+      .style("fill-opacity", 0.4)
+    .transition()
+      .attr("transform", "translate(0,960)scale(1,1)")
+      .style("fill-opacity", 0.1)
+      .remove();
+}
+
+</script>
